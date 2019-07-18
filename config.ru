@@ -16,7 +16,12 @@ ENV['RACK_ENV'] ||= 'production'
 # $ psql postgres -c "CREATE ROLE pact_broker WITH LOGIN PASSWORD 'CHANGE_ME';"
 # $ psql postgres -c "GRANT ALL PRIVILEGES ON DATABASE pact_broker TO pact_broker;"
 #
-DATABASE_CREDENTIALS = {adapter: "postgres", database: "da58dl8ic1jaci", username: 'bwvhufshhnfywe', password: 'f6a56c5f2d098912d1292a4d3871e11a7f4e890579a65c459ba6c149bcab11f5', :encoding => 'utf8'}
+DATABASE_CREDENTIALS = {
+  adapter: "postgres",
+  database: "da58dl8ic1jaci",
+  username: 'bwvhufshhnfywe',
+  password: 'f6a56c5f2d098912d1292a4d3871e11a7f4e890579a65c459ba6c149bcab11f5'
+}
 
 # Have a look at the Sequel documentation to make decisions about things like connection pooling
 # and connection validation.
@@ -27,7 +32,11 @@ app = PactBroker::App.new do | config |
   # change these from their default values if desired
   # config.log_dir = "./log"
   # config.auto_migrate_db = true
-  config.database_connection = Sequel.connect(DATABASE_CREDENTIALS.merge(:logger => PactBroker::DB::LogQuietener.new(config.logger)))
+  config.database_connection = Sequel.connect(
+    "postgres://bwvhufshhnfywe:f6a56c5f2d098912d1292a4d3871e11a7f4e890579a65c459ba6c149bcab11f5@ec2-46-137-91-216.eu-west-1.compute.amazonaws.com:5432/da58dl8ic1jaci",
+    logger: PactBroker::DB::LogQuietener.new(config.logger),
+    encoding: 'utf8'
+  )
 end
 
 run app
