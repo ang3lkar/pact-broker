@@ -28,7 +28,6 @@ _yardoc
 .idea
 
 *.sqlite3
-Gemfile.lock
 
 bethtest/
 *bethtest*
