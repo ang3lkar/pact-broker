@@ -26,7 +26,11 @@ DATABASE_CREDENTIALS = {
 # Have a look at the Sequel documentation to make decisions about things like connection pooling
 # and connection validation.
 
-ENV['TZ'] = 'Australia/Melbourne' # Set the timezone you want your dates to appear in
+ENV['TZ'] ||= 'Europe/Athens' # Set the timezone you want your dates to appear in
+
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == ENV['PACT_BROKER_USERNAME'] and password == ENV['PACT_BROKER_PASSWORD']
+end
 
 app = PactBroker::App.new do | config |
   # change these from their default values if desired
