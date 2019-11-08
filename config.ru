@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'logger'
 require 'sequel'
-# require 'pg' # for postgres
+require 'pg' # for postgres
 require 'pact_broker'
 
 ENV['RACK_ENV'] ||= 'production'
@@ -18,9 +18,9 @@ ENV['RACK_ENV'] ||= 'production'
 #
 DATABASE_CREDENTIALS = {
   adapter: "postgres",
-  database: "da58dl8ic1jaci",
-  username: 'bwvhufshhnfywe',
-  password: 'f6a56c5f2d098912d1292a4d3871e11a7f4e890579a65c459ba6c149bcab11f5'
+  database: ENV["PACT_BROKER_DATABASE_NAME"],
+  username: ENV["PACT_BROKER_DATABASE_USERNAME"],
+  password: ENV["PACT_BROKER_DATABASE_PASSWORD"]
 }
 
 # Have a look at the Sequel documentation to make decisions about things like connection pooling
@@ -36,11 +36,7 @@ app = PactBroker::App.new do | config |
   # change these from their default values if desired
   # config.log_dir = "./log"
   # config.auto_migrate_db = true
-  config.database_connection = Sequel.connect(
-    "postgres://bwvhufshhnfywe:f6a56c5f2d098912d1292a4d3871e11a7f4e890579a65c459ba6c149bcab11f5@ec2-46-137-91-216.eu-west-1.compute.amazonaws.com:5432/da58dl8ic1jaci",
-    logger: PactBroker::DB::LogQuietener.new(config.logger),
-    encoding: 'utf8'
-  )
+  config.database_connection = Sequel.connect(DATABASE_CREDENTIALS.merge(:logger => PactBroker::DB::LogQuietener.new(config.logger), :encoding => "utf8"))
 end
 
 run app
