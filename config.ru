@@ -18,6 +18,7 @@ ENV['RACK_ENV'] ||= 'production'
 #
 DATABASE_CREDENTIALS = {
   adapter: "postgres",
+  host: ENV["PACT_BROKER_DATABASE_HOST"],
   database: ENV["PACT_BROKER_DATABASE_NAME"],
   username: ENV["PACT_BROKER_DATABASE_USERNAME"],
   password: ENV["PACT_BROKER_DATABASE_PASSWORD"]
