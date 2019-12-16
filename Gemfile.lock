@@ -84,7 +84,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.9, >= 0.9.0)
-    excon (0.64.0)
+    excon (0.71.0)
     fakefs (0.20.1)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
